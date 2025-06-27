@@ -40,11 +40,39 @@ const registerUser = async (req, res) => {
 
 
 // login
-const login = async(req, res)=>{
+const loginUser = async(req, res)=>{
+
+    const {email, password} = req.body;
     try {
         
+        const existingUser = await User.findOne({email})
+
+        if(!existingUser){
+            console.log("No user found")
+            return res.status(400).json({success: false, message: "Email does not exist."})
+        }
+
+        const passwordMatch = await bcrypt.compare(password, existingUser.password)
+
+        if(!passwordMatch){
+            console.log("Invalid password")
+            return res.status(400).json({success: false, message: "Password is invalid."})
+        }
+
+        const token = jwt.sign({
+            id: existingUser._id, role: existingUser.role, email: existingUser.email
+        }, 'CLIENT_SECRET_KEY', { expiresIn: '20d' })
+
+        // {expiresIn: '10000000m'}
+
+        res.cookie('token', token, {httpOnly : true, secure : false}).json({
+            success: true, message: 'Logged in successfully.', user: {
+                email: existingUser.email, role: existingUser.role, id: existingUser.id
+            }
+        })
+        
     } catch (e) {
-        console.log("Error during registration", e)
+        console.log("Error during registration")
         res.status(500).json({
             success : false,
             message : 'Some error occured'
@@ -55,10 +83,37 @@ const login = async(req, res)=>{
 
 
 // logout
+const logout = (req, res)=> {
+    res.clearCookie('token').json({
+        success: true, message: 'Logged out successfully.'
+    })
+}
 
 
 
 // auth middleware
+const authMiddleware = async (req, res, next)=> {
+    const token = req.cookies.token
+    if(!token) return res.status(401).json(
+        {
+            success: false,
+            message: 'Unauthorized user!'
+        }
+    )
+
+    try{
+        const decoded = jwt.verify(token, 'CLIENT_SECRET_KEY')
+        req.user = decoded
+        next()
+    }catch(error){
+        res.status(401).json(
+        {
+            success: false,
+            message: 'Unauthorized user!'
+        }
+    )
+    }
+}
 
 
 
@@ -66,4 +121,4 @@ const login = async(req, res)=>{
 
 
 
-export { registerUser };
+export { registerUser, loginUser, logout, authMiddleware };

@@ -1,4 +1,4 @@
-import { use, useState } from 'react'
+import { useEffect } from 'react'
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import AuthLayout from './components/auth/Layout'
@@ -15,21 +15,37 @@ import ShoppinHome from './Pages/shopping-view/Home'
 import ShoppingListing from './Pages/shopping-view/Listing'
 import ShoppingCheckout from './Pages/shopping-view/Checkout'
 import ShoppingAccount from './Pages/shopping-view/Acconunt'
+import { checkAuth } from './store/auth-slice'
 import CheckAuth from './components/common/Check_auth'
 import UnauthPage from './Pages/unauth_page'
+import { useDispatch, useSelector } from 'react-redux'
+
+import { Skeleton } from "@/components/ui/skeleton"
 
 function App() {
-  const [count, setCount] = useState(0)
+  
+  const {isAuthenticated, user, isLoading} = useSelector(state=> state.auth) //FROM STORE
 
-  const isAuthenticated = false
-  const user = {
-    name: 'Varun',
-    role: 'user'
-  };
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkAuth()); // ✅ THUNK USAGE
+  }, [dispatch]);
+
+  if(isLoading) return <Skeleton className='h-full w-full ' />
+
+  // Purpose of checkAuth Thunk
+
+  // Sends a GET request to your backend at /api/auth/check-auth
+
+  // Includes cookies (withCredentials: true) — so the JWT token can be read
+
+  // If token is valid, backend responds with the user info
+
+
 
   return (
     <div className='flex flex-col overflow-hidden bg-white min-h-screen'>
-      <h1 className="text-3xl font-bold text-center my-4">Header</h1>
       <Routes>
 
 

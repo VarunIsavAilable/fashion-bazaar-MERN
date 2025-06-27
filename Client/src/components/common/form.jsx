@@ -1,17 +1,14 @@
-import { Label } from '@radix-ui/react-label'
 import React from 'react'
 import { Input } from '../ui/input';
-import { Select } from '../ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Textarea } from '../ui/textarea';
-import { SelectItem } from '@radix-ui/react-select';
+import { Label } from '@radix-ui/react-label';
 
 export default function CommonForm({formControls, formData, setFormData, onSubmit, buttonText}) {
 
     function renderInputesByComponentType(getControlItem){
         let element = null
         const value = formData[getControlItem.name] || ''
-
-
 
 
 
@@ -34,15 +31,15 @@ export default function CommonForm({formControls, formData, setFormData, onSubmi
 
             case 'select':
                 element = 
-                <Select onValueChange={(value)=> setFormData({
+                <Select  onValueChange={(value)=> setFormData({
                     ...formData,
                     [getControlItem.name]: value
                 })} value={value}>
-                    <SelecTriger className='w-full'>
-                        <SelectValue placeholder={getControlItem.placeholder}/>
-                    </SelecTriger>
+                    <SelectTrigger className='w-full text-white'>
+                        <SelectValue className='text-white'  placeholder={getControlItem.label}/>
+                    </SelectTrigger>
 
-                    <SelectContent>
+                    <SelectContent >
                         {
                             getControlItem.options &&
                             getControlItem.options.length > 0 ?
@@ -60,8 +57,14 @@ export default function CommonForm({formControls, formData, setFormData, onSubmi
                     name={getControlItem.name}
                     placeholder={getControlItem.placeholder}
                     id={getControlItem.name}
-                    // type={getControlItem.type}
                     value={value}
+                    onChange={(event) =>
+                        setFormData({
+                            ...formData,
+                            [getControlItem.name]: event.target.value,
+                        })
+                    }
+
                 />
                 
                 break;

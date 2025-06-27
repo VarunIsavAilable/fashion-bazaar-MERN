@@ -6,6 +6,8 @@ import cors from 'cors'
 import authRouter from './routes/auth/auth-routes.js'; //get the auth router for routing to authentications
 
 
+import adminProductsRouter from './routes/admin/products-route.js'
+
 
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -20,7 +22,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/Ecommerse')
 //cors config
 app.use(
     cors({
-        origin: 'http://localhost:5173/',
+        origin: 'http://localhost:5173',
         methods: ['GET', 'POST', 'DELETE', 'PUT'],
         allowedHeaders: [
             "Content-Type",
@@ -39,5 +41,7 @@ app.use(express.json())
 
 //    /api/auth/register -> register
 app.use('/api/auth', authRouter) // Redirect to register 
+
+app.use('/api/admin/products', adminProductsRouter)
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))

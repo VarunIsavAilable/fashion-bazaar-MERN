@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { data, Link } from 'react-router-dom'
 import CommonForm from '@/components/common/form'
 import { loginFormControls } from '@/config'
+import { useDispatch } from 'react-redux'
+import { loginUser } from '../../store/auth-slice'
+import { toast } from "sonner"
 
 const initialState = {
   email: '',
@@ -12,7 +15,22 @@ function AuthLogin() {
 
   const [formData, setFormData] = useState(initialState)
 
-  function onsubmit(){
+  const dispatch = useDispatch()
+
+  function onsubmit(event){
+    event.preventDefault()
+
+    dispatch(loginUser(formData))
+    .then(data=> {
+      console.log(data)
+
+      if(data?.payload.success){
+        toast("Logged in successfully.")
+      }
+      
+    }).catch(error=>{
+      toast("Log in unsuccessful.")
+    })
 
   }
 
