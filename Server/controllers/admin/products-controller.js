@@ -1,3 +1,4 @@
+import { json } from 'express';
 import { imageUploadUtils } from '../../helpers/cloudinary.js'
 import Product from '../../models/Product.js';
 
@@ -56,8 +57,15 @@ export async function addProduct(req, res){
 }
 
 //fetch all products
-export async function fetchAllProduct(req, res){
+export async function fetchAllNewProduct(req, res){
     try {
+
+        const listOfProducts = await Product.find({})
+
+        res.status(200).json({
+            success: true,
+            data: listOfProducts
+        })
         
     } catch (e) {
         console.log(e)
@@ -71,6 +79,35 @@ export async function fetchAllProduct(req, res){
 //edit a pruduct
 export async function editProduct(req, res){
     try {
+
+        const {id} = req.params
+
+        const {image, title, description, category, brand, price, salePrice, totalStock} = req.body
+
+        const findProduct = await Product.findById(id)
+
+        if(!findProduct) return res.status(404).json({
+            success: false,
+            message: "Product not found"
+        })
+
+        findProduct.title = title || findProduct.title
+        findProduct.description = description || findProduct.description
+        findProduct.category = category || findProduct.category
+        findProduct.brand = brand || findProduct.brand
+        findProduct.price = price || findProduct.price
+        findProduct.salePrice = salePrice || findProduct.salePrice
+        findProduct.totalStock = totalStock || findProduct.totalStock
+        findProduct.image = image || findProduct.image
+
+        await findProduct.save()
+
+        res.status(200).json({
+            success: true,
+            data: findProduct
+        })
+
+
         
     } catch (e) {
         console.log(e)
@@ -84,6 +121,20 @@ export async function editProduct(req, res){
 //delete a product
 export async function deleteProduct(req, res){
     try {
+
+        const {id} = req.params
+
+        const findProduct = await Product.findByIdAndDelete(id)
+
+        if(!findProduct) return res.status(404).json({
+            success: false,
+            message: "Product not found"
+        })
+
+        res.status(200).json({
+            success: true,
+            message: "Product deleted"
+        })
         
     } catch (e) {
         console.log(e)

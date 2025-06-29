@@ -4,7 +4,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Textarea } from '../ui/textarea';
 import { Label } from '@radix-ui/react-label';
 
-export default function CommonForm({formControls, formData, setFormData, onSubmit, buttonText}) {
+export default function CommonForm({formControls, formData, setFormData, onSubmit, buttonText,
+    isBtnDisabled
+}) {
 
     function renderInputesByComponentType(getControlItem){
         let element = null
@@ -23,7 +25,6 @@ export default function CommonForm({formControls, formData, setFormData, onSubmi
                     onChange={event=>setFormData({
                         ...formData, 
                         [getControlItem.name]: event.target.value
-,
                     })}
                 />
                 
@@ -103,7 +104,7 @@ export default function CommonForm({formControls, formData, setFormData, onSubmi
                 )
             }
         </div>
-        <button type='submit' className='mt-2 w-full text-white'>{buttonText || 'Submit'}</button>
+        <button disabled={isBtnDisabled} type='submit' className='mt-2 w-full text-white'>{buttonText || 'Submit'}</button>
     </form>
   )
 }

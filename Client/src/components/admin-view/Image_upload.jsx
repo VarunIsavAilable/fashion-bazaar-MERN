@@ -4,10 +4,13 @@ import { Input } from '../ui/input'
 import { FileIcon, UploadCloudIcon, XIcon } from 'lucide-react'
 import { Button } from '../ui/button'
 import axios from 'axios'
+import { Skeleton } from '../ui/skeleton'
 
 
 export default function ProductImageUpload(
-  {imageFile, setImageFile, uploadedImage, setUploadedImageUrl, setImageLoadingState}
+  {imageFile, setImageFile, uploadedImage, setUploadedImageUrl, 
+    
+    setImageLoadingState, imageLoadingState, isEditMode}
 
 ) {
 
@@ -64,18 +67,30 @@ export default function ProductImageUpload(
   return (
     <div className='w-full max-w-md mx-auto px-3 mt-4'>
         <Label className='text-lg font-semibold mb-2 block '>Upload Image</Label>
-        <div onDragOver={handlDragOver} onDrop={handleDrop} className='border-2 border-dashed rounded-lg p-4'>
+
+        <div onDragOver={handlDragOver} onDrop={handleDrop} className={` ${isEditMode ? 'opacity-40' : ''} border-2 border-dashed rounded-lg p-4 `}>
+
+
           <Input id='image-upload' type='file' className='hidden'
           ref={inputRef}
           onChange={handleImageFileChange}
+
+          disabled={isEditMode}
           />
 
           {
-          !imageFile? 
-          <Label htmlFor='image-upload' className='flex flex-col items-center justify-center h-32 cursor-pointer'>
+          !imageFile? (
+          <Label htmlFor='image-upload'
+           className={` ${isEditMode ? `cursor-not-allowed` : ''} flex flex-col items-center justify-center h-32 cursor-pointer`}>
             <UploadCloudIcon className='w-10 h-10 text-green-950 mb-2'/>
             <span>Drag & drop or click to upload image</span>
-          </Label>  :  <div className='flex items-center justify-between'>
+          </Label> ) 
+
+          :
+          
+          (
+          imageLoadingState ? <Skeleton className='h-10 bg-gray-200'/> :
+          <div className='flex items-center justify-between'>
             <div className='flex items-center'>
               <FileIcon className='w-7 h-7 text-green-950 mr-2'/>
             </div>
@@ -83,8 +98,8 @@ export default function ProductImageUpload(
             <Button variant='ghost' size='icon' className='text-green-950 hover:text-green-800' onClick={handleRemoveImage}>
               <XIcon className='w-4 h-4 '/>
               <span className='sr-only'>Remove File</span>
-            </Button>
-          </div>
+            </Button> 
+          </div> ) 
         }
         </div>
         
