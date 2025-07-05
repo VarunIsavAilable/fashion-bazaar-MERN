@@ -1,13 +1,14 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { House, Menu, ShoppingCart }from 'lucide-react'
+import { Link, useNavigate } from 'react-router-dom'
+import { House, Menu, ShoppingCart, User, LogOut }from 'lucide-react'
 import { SheetTrigger, Sheet, SheetContent } from '../ui/sheet'
 import { Button } from '../ui/button'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { shoppingViewHeaderMenuItems } from '@/config'
-import { DropdownMenu, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
+import { DropdownMenu, DropdownMenuSeparator, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { DropdownMenuContent, DropdownMenuLabel } from '../ui/dropdown-menu'
+import { DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel } from '../ui/dropdown-menu'
+import { logoutUser } from '@/store/auth-slice'
 
 function MenuItems(){
   return <nav className='flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row'>
@@ -27,21 +28,46 @@ function MenuItems(){
 
 
 function HeaderRightContent(){
+  const {isAuthenticated, user} = useSelector(state=>state.auth)
+
+  const navigate = useNavigate()
+
+  const dispatch = useDispatch()
+
+  function handleLogout(){
+    dispatch(logoutUser())
+  }
+
   return <div className='flex lg:items-center lg:flex-row flex-col gap-4'>
     <Button variant='outline' size='icon' className='text-white'>
       <ShoppingCart className='w-5 h-5 text-white'/>
       <span className='sr-only'>User Cart</span>
     </Button>
     
-    <DropdownMenu>
+    <DropdownMenu className='cursor-pointer'>
       <DropdownMenuTrigger asChild>
-        <Avatar className='bg-black '>
-          <AvatarFallback className='bg-black text-white font-extrabold'>VP</AvatarFallback>
+        <Avatar className='bg-black cursor-pointer'>
+          <AvatarFallback className='bg-black text-white font-extrabold'>{user?.username[0].toUpperCase()}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent side="right" className='w-56 '>
-        <DropdownMenuLabel>Logged in as </DropdownMenuLabel>
+      <DropdownMenuContent side="right" className='w-56'>
+        <DropdownMenuLabel>Logged in as {user?.username}</DropdownMenuLabel>
+       
+        <DropdownMenuSeparator/>
+
+        <DropdownMenuItem className='cursor-pointer' onClick={()=>navigate('shop/account')}> 
+          <User  className='mr-2 h-4 w-4'/>
+          Account
+        </DropdownMenuItem>
+
+        <DropdownMenuSeparator/>
+
+        <DropdownMenuItem className='cursor-pointer' onClick={handleLogout}>
+          <LogOut className='mr-2 h-4 w-4'/>
+          Logout
+        </DropdownMenuItem>
+
       </DropdownMenuContent>
     </DropdownMenu>
 
@@ -56,7 +82,7 @@ export default function ShoppingHeader() {
   console.log(user)
 
   return (
-    <header className='sticky top-0 z-40 w-full border-b bg-white'>
+    <header className='sticky top-0 z-40 w-screen border-b bg-white'>
       <div className='flex h-16 items-center justify-between px-4 md:px-6'>
         <Link to='/shop/home' className='flex items-center gap-2' >
           <House className='h-6 w-6 text-black'/>
@@ -75,6 +101,7 @@ export default function ShoppingHeader() {
           <SheetContent side='left' className='w-full max-w-xs text-black pl-4 pt-7'>
 
             <MenuItems/>
+            <HeaderRightContent />
               
           </SheetContent>
         </Sheet>
@@ -83,11 +110,11 @@ export default function ShoppingHeader() {
         <div className='hidden lg:block'>
           <MenuItems/>
         </div>
-          {
-            isAuthenticated ? <div></div> : null
-          }
 
-          <HeaderRightContent/>
+        <div className='hidden lg:block'>
+          <HeaderRightContent />
+        </div>
+          
       </div>
     </header>
   )
