@@ -4,13 +4,14 @@ import ShoppingProductTile from '@/components/shopping-view/Product-tile'
 import { Button } from '@/components/ui/button'
 import { DropdownMenuRadioGroup, DropdownMenuRadioItem } from '@/components/ui/dropdown-menu'
 import { sortOptions } from '@/config'
+import { addToCart, fetchCartItems, updateCartQuantity } from '@/store/shop/cart-slice'
 import { fetchAllFilteredProducts, fetchProductDetails } from '@/store/shop/products-slice'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { ArrowUpDownIcon } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { createSearchParams, useSearchParams } from 'react-router-dom'
-
+import { toast } from "sonner"
 
 
 
@@ -37,6 +38,10 @@ export default function ShoppingListing() {
 
   //todo Get data from store
   const {productList, productDetails} = useSelector(state=> state.shopProducts)
+
+
+  const {user} = useSelector(state=>state.auth)
+
 
   const [filters, setFilters] = useState({})
   const [sort, setSort] = useState(null)
@@ -81,7 +86,6 @@ export default function ShoppingListing() {
 
     sessionStorage.setItem('filters', JSON.stringify(copyFilters))
 
-    console.log(copyFilters)
   }
 
 
@@ -90,6 +94,17 @@ export default function ShoppingListing() {
     // console.log(getCurrentProductId)
 
     dispatch(fetchProductDetails(getCurrentProductId))
+  }
+
+
+  function handleAddToCart(getCurrentProductId){
+    dispatch(addToCart({userId: user?.id, productId: getCurrentProductId, quantity: 1}))
+    .then((data)=>{
+      if(data?.payload?.success){
+        dispatch(fetchCartItems(user?.id))
+        toast("Product is added to cart.")
+      }
+    })
   }
 
 
@@ -105,14 +120,11 @@ export default function ShoppingListing() {
   useEffect(()=>{
     if(filters && Object.keys(filters).length > 0){
       const createQueryString = createSearchParamsHelper(filters)
-      console.log(filters)
-      console.log(createQueryString)
       setSearchParams(new URLSearchParams(createQueryString))
     }
   }, [filters])
 
   
-  console.log(productDetails)
 
 
   //fetch list of products - This will go to the asyncThunk to make server req for product rendering then see we are use UseSelector to fetch items from store...
@@ -179,7 +191,7 @@ export default function ShoppingListing() {
           {
             productList && productList.length > 0 ?
             productList.map(productItem=> 
-              <ShoppingProductTile handleGetProductDetails={handleGetProductDetails} product={productItem}/>
+              <ShoppingProductTile handleGetProductDetails={handleGetProductDetails} product={productItem} handleAddToCart={handleAddToCart}/>
             ) : null
           }
       </div>

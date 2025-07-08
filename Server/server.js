@@ -11,6 +11,9 @@ import adminProductsRouter from './routes/admin/products-route.js'
 
 import shopProductRouter from './routes/shop-view/products-routes.js'
 
+
+import shopCartRouter from './routes/shop-view/cart-routes.js'
+
 const app = express()
 const PORT = process.env.PORT || 5000
 
@@ -47,5 +50,11 @@ app.use('/api/auth', authRouter) // Redirect to register
 app.use('/api/admin/products', adminProductsRouter)
 
 app.use('/api/shop/products', shopProductRouter)
+
+
+
+// Cart
+app.use('/api/shop/cart', shopCartRouter)
+
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
