@@ -14,6 +14,9 @@ import shopProductRouter from './routes/shop-view/products-routes.js'
 
 import shopCartRouter from './routes/shop-view/cart-routes.js'
 
+import shopAddressRouter from './routes/shop-view/address-routes.js'
+
+
 const app = express()
 const PORT = process.env.PORT || 5000
 
@@ -44,17 +47,15 @@ app.use(cookieParser())
 app.use(express.json())
 
 
-//    /api/auth/register -> register
-app.use('/api/auth', authRouter) // Redirect to register 
+app.use('/api/auth', authRouter) 
 
 app.use('/api/admin/products', adminProductsRouter)
 
 app.use('/api/shop/products', shopProductRouter)
 
-
-
-// Cart
 app.use('/api/shop/cart', shopCartRouter)
+
+app.use('/api/shop/address', shopAddressRouter)
 
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))

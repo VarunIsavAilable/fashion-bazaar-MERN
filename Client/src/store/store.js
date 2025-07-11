@@ -1,10 +1,11 @@
 // It will hold all the application states.
 
 import { configureStore } from "@reduxjs/toolkit"
-import authReducer from './auth-slice/index' //*CHECK
+import authReducer from './auth-slice/index' 
 import adminProductsSlice from './admin/products-slice'
 import ShoppingProductSlice from './shop/products-slice'
 import shopCartSlice from './shop/cart-slice'
+import shopAddressSlice from './shop/address-slice'
 
 
 
@@ -14,6 +15,7 @@ const store = configureStore({
         adminProducts: adminProductsSlice,
         shopProducts: ShoppingProductSlice,
         shopCart: shopCartSlice,
+        shopAddress: shopAddressSlice,
     }
 })
 
