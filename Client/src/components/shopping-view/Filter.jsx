@@ -5,23 +5,22 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Separator } from "@/components/ui/separator"
 
 export default function ProductFilter({ filters, handleFilter }) {
-    console.log("hy")
   return (
-    <div className='rounded-lg shadow-sm w-55'>
+    <div className='rounded-sm shadow-sm w-[250px] [@media(max-width:426px)]:w-full'>
         <div className='p-4 border-b'>
-            <h2 className='text-lg font-extrabold'>Filters</h2>
+            <h2 className='text-lg font-extrabold pt-1'>Filters</h2>
         </div>
 
-        <div className='p-4 space-y-4'>
+        <div className='p-4 space-y-4 '>
             {
                 Object.keys(filterOptions).map(keyItem=>
                     <Fragment>
                         <div>
                             <h3 className='font-bold'>{keyItem}</h3>
-                            <div className='grid gap-2 mt-2'>
+                            <div className='grid gap-2 mt-2 [@media(max-width:426px)]:grid-cols-2'>
                                 {
                                     filterOptions[keyItem].map(option=>
-                                        <Label key={option.id} className='flex items-center gap-2 font-medium'>
+                                        <Label key={option.id} className='flex items-center gap-2 font-medium '>
                                             <Checkbox 
                                             checked={
                                                 filters && Object.keys(filters).length > 0 &&
@@ -30,7 +29,6 @@ export default function ProductFilter({ filters, handleFilter }) {
                                             onCheckedChange={
                                                 ()=>handleFilter(keyItem, option.id)
                                             }
-                                            
                                             />
                                             {option.label}
                                         </Label>

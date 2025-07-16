@@ -103,7 +103,7 @@ function AdminProducts() {
   return (
     <Fragment>
       <div className='mb-5 w-full flex justify-end '>
-        <Button onClick={()=>setOpenCreateProductsDialogue(true)}>
+        <Button className='bg-white text-black cursor-pointer' onClick={()=>setOpenCreateProductsDialogue(true)}>
           Add New Product
         </Button>
       </div>
@@ -129,7 +129,7 @@ function AdminProducts() {
           setFormData(initialFormData)
       }}>
 
-        <SheetContent side='right' className='overflow-auto'>
+        <SheetContent side='right' className='overflow-auto bg-white'>
           <SheetHeader>
             <SheetTitle>
               {

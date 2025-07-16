@@ -21,6 +21,7 @@ import UnauthPage from './Pages/unauth_page'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Skeleton } from "@/components/ui/skeleton"
+import PaypalReturnPage from './Pages/shopping-view/Paypal-return'
 
 function App() {
   
@@ -87,6 +88,7 @@ function App() {
           <Route path='listing' element={<ShoppingListing/>}/>
           <Route path='checkout' element={<ShoppingCheckout/>}/>
           <Route path='account' element={<ShoppingAccount/>}/>
+          <Route path='paypal-return' element={<PaypalReturnPage/>}/>
         </Route>
 
 

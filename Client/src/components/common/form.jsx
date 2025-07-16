@@ -36,11 +36,11 @@ export default function CommonForm({formControls, formData, setFormData, onSubmi
                     ...formData,
                     [getControlItem.name]: value
                 })} value={value}>
-                    <SelectTrigger className='w-full text-white'>
+                    <SelectTrigger className='w-full text-black'>
                         <SelectValue className='text-white'  placeholder={getControlItem.label}/>
                     </SelectTrigger>
 
-                    <SelectContent >
+                    <SelectContent className='bg-white text-black' >
                         {
                             getControlItem.options &&
                             getControlItem.options.length > 0 ?
@@ -104,7 +104,7 @@ export default function CommonForm({formControls, formData, setFormData, onSubmi
                 )
             }
         </div>
-        <button disabled={isBtnDisabled} type='submit' className='mt-2 w-full text-white'>{buttonText || 'Submit'}</button>
+        <button disabled={isBtnDisabled} type='submit' className='mt-2 w-full text-white bg-black h-8 rounded-lg hover:cursor-pointer'>{buttonText || 'Submit'}</button>
     </form>
   )
 }

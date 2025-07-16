@@ -146,13 +146,13 @@ export default function ShoppingListing() {
 
   return (
     <>
-    <div className='grid grid-cols-2 md:grid-cols-[300px_1fr] gap-6 p-4 md:p-6'>
+    <div className='grid grid-cols-[250px_1fr] [@media(max-width:426px)]:grid-cols-1'>
 
       <ProductFilter filters={filters} handleFilter={handleFilter} />
 
 
-      <div className=' rounded-lg shadow-sm lg:ml-[-100px] md:ml-[-100px] sm:ml-[-100px] '>
-        <div className='p-4 border-b flex items-center justify-between '>
+      <div className=' rounded-lg shadow-sm w-full pr-4'>
+        <div className='p-4 border-b flex items-center justify-between'>
           <h2 className='text-lg font-extrabold'>All Products</h2>
           <div className='flex items-center gap-2'>
             <span>{productList?.length} Products</span>
@@ -160,8 +160,8 @@ export default function ShoppingListing() {
           <DropdownMenu >
             <DropdownMenuTrigger asChild >
               <Button variant='outline' size='sm' className='flex items-center gap-1'>
-                <ArrowUpDownIcon className='h-4 w-4 text-white '/>
-                <span className='text-white'>Sort by</span>
+                <ArrowUpDownIcon className='h-4 w-4  '/>
+                <span>Sort by</span>
               </Button>
 
             </DropdownMenuTrigger>
@@ -171,7 +171,7 @@ export default function ShoppingListing() {
 
               <DropdownMenuRadioGroup value={sort} onValueChange={handleSort} 
               
-              className='bg-pink-300 text-white rounded-2xl sticky z-70'>
+              className='bg-black text-white rounded-2xl sticky z-70'>
                 {
                   sortOptions.map(sortItem=>
                     <DropdownMenuRadioItem value={sortItem.id} key={sortItem.id} className='hover:bg-white hover:text-black'>
@@ -187,7 +187,7 @@ export default function ShoppingListing() {
           </DropdownMenu>
         </div>
 
-        <div className='grid grid-cols-1 sm:grid-2 md:grid-cols-3 lg:grid-cols-4  gap-4 mt-2'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-2 p-4'>
           {
             productList && productList.length > 0 ?
             productList.map(productItem=> 
@@ -200,9 +200,6 @@ export default function ShoppingListing() {
       <ProductDetailsDialogue open={openDetailsDialogue} setOpen={setOpenDetailsDialogue} productDetails={productDetails}/>
 
     </div>
-
-    
-
     </>
     
   )

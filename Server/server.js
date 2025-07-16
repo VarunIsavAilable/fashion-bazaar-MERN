@@ -3,18 +3,17 @@ import mongoose from 'mongoose'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 
-import authRouter from './routes/auth/auth-routes.js'; //get the auth router for routing to authentications
-
+import authRouter from './routes/auth/auth-routes.js'; 
 
 import adminProductsRouter from './routes/admin/products-route.js'
 
-
 import shopProductRouter from './routes/shop-view/products-routes.js'
-
 
 import shopCartRouter from './routes/shop-view/cart-routes.js'
 
 import shopAddressRouter from './routes/shop-view/address-routes.js'
+
+import shopOrderRouter from './routes/shop-view/order-routes.js'
 
 
 const app = express()
@@ -56,6 +55,8 @@ app.use('/api/shop/products', shopProductRouter)
 app.use('/api/shop/cart', shopCartRouter)
 
 app.use('/api/shop/address', shopAddressRouter)
+
+app.use('/api/shop/order', shopOrderRouter)
 
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))

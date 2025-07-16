@@ -2,15 +2,17 @@ import React, { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
 import { Button } from '../ui/button'
-import { Dialog, DialogTrigger, DialogContent } from '../ui/dialog'
-import ShoppingOrderDetailsView from './Order-details'
+import { Dialog } from '../ui/dialog'
+import AdminOrderDetailsView from './Order-details'
 
-export default function ShoppingOrders() {
+export default function AdminOrdersView() {
+
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false)
+
   return (
-    <Card>
+    <Card className='bg-white'>
       <CardHeader>
-        <CardTitle>Order History</CardTitle>
+        <CardTitle>All Orders</CardTitle>
       </CardHeader>
 
       <CardContent>
@@ -35,8 +37,9 @@ export default function ShoppingOrders() {
               <TableCell>9000</TableCell>
               <TableCell>
                 <Dialog open={openDetailsDialog} onOpenChange={setOpenDetailsDialog}>
-                  <Button onClick={()=>setOpenDetailsDialog(true)} className='bg-black text-white hover:cursor-pointer'>View Details</Button>
-                  <ShoppingOrderDetailsView/>
+                  <Button  onClick={()=>setOpenDetailsDialog(true)} className='bg-black text-white hover:cursor-pointer'>View Details</Button>
+
+                  <AdminOrderDetailsView/>
                 </Dialog>
               </TableCell>
             </TableRow>

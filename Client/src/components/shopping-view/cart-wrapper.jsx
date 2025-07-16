@@ -18,7 +18,7 @@ export default function UserCartWrapper({cartItems, setOpenCartSheet}) {
 
 
   return (
-    <SheetContent className='sm:max-w-md pl-5 pr-5'>
+    <SheetContent className='sm:max-w-md pl-5 pr-5 bg-white'>
         <SheetHeader>
             <SheetTitle>Your Cart</SheetTitle>
         </SheetHeader>
@@ -41,7 +41,7 @@ export default function UserCartWrapper({cartItems, setOpenCartSheet}) {
 
         <Button onClick={()=>{
           navigate('/shop/checkout')
-          setOpenCartSheet(false)}} className='w-full mt-6 pl-5 pr-5'>Checkout</Button>
+          setOpenCartSheet(false)}} className='w-full mt-6 pl-5 pr-5 bg-black text-white hover:cursor-pointer'>Checkout</Button>
     </SheetContent>
   )
 }

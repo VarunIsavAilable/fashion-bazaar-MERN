@@ -61,7 +61,7 @@ export default function ShoppingProductTile({product, handleGetProductDetails, h
         </div>
 
         <CardFooter>
-                <Button onClick={()=>handleAddToCart(product?._id)} className='w-full'>
+                <Button onClick={()=>handleAddToCart(product?._id)} className='w-full bg-black text-white hover:cursor-pointer'>
                     Add to cart
                 </Button>
         </CardFooter>

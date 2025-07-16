@@ -113,11 +113,11 @@ export default function ShoppinHome() {
           )
         }
 
-        <Button onClick={()=>setCurrentSlide(prevSlide=> (prevSlide-1 + slides.length) % slides.length)} variant='outline' size='icon' className='absolute top-1/2 left-4 transform -translate-y-1/2 !bg-white'>
+        <Button onClick={()=>setCurrentSlide(prevSlide=> (prevSlide-1 + slides.length) % slides.length)} variant='outline' size='icon' className='absolute top-1/2 left-4 transform -translate-y-1/2 !bg-white hover:cursor-pointer'>
           <ChevronLeftIcon className='w-4 h-4 text-black'/>
         </Button>
 
-        <Button onClick={()=>setCurrentSlide(prevSlide=> (prevSlide+1) % slides.length)} variant='outline' size='icon' className='absolute top-1/2 right-8 transform -translate-y-1/2 !bg-white/80'>
+        <Button onClick={()=>setCurrentSlide(prevSlide=> (prevSlide+1) % slides.length)} variant='outline' size='icon' className='absolute top-1/2 right-8 transform -translate-y-1/2 !bg-white/80 hover:cursor-pointer'>
           <ChevronRightIcon className='w-4 h-4 text-black'/>
         </Button>
       </div>

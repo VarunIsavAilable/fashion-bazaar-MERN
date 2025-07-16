@@ -81,9 +81,8 @@ function HeaderRightContent() {
           onClick={() => setOpenCartSheet(true)}
           variant="outline"
           size="icon"
-          className="text-white"
         >
-          <ShoppingCart className="w-5 h-5 text-white" />
+          <ShoppingCart className="w-5 h-5" />
           <span className="sr-only">User Cart</span>
         </Button>
 
@@ -106,7 +105,7 @@ function HeaderRightContent() {
           </Avatar>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent side="right" className="w-56">
+        <DropdownMenuContent side="right" className="w-56 bg-white">
           <DropdownMenuLabel>Logged in as {user?.username}</DropdownMenuLabel>
 
           <DropdownMenuSeparator />
@@ -145,17 +144,17 @@ export default function ShoppingHeader() {
         </Link>
 
         {/* For small devices */}
-        <Sheet>
+        <Sheet >
           <SheetTrigger asChild>
             <Button variant="outline" size="icon" className="lg:hidden ">
-              <Menu className="h-5 w-5 text-white" />
+              <Menu className="h-5 w-5 " />
               <span className="sr-only">Toggle header menu</span>
             </Button>
           </SheetTrigger>
 
           <SheetContent
             side="left"
-            className="w-full max-w-xs text-black pl-4 pt-7"
+            className="w-full max-w-xs text-black bg-white pl-4 pt-7"
           >
             <MenuItems />
             <HeaderRightContent />

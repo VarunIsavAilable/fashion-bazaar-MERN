@@ -45,14 +45,14 @@ export default function UserCartItemContent({cartItems}) {
             <h3 className='font-extrabold'>{cartItems?.title}</h3>
             <div className='flex items-center mt-1 gap-2'>
                 <Button onClick={()=>handleUpdateQuantity(cartItems, 'minus')} variant='outline' size='icons' className='h-8 w-8 rounded-full ' disabled={cartItems && cartItems.quantity === 1}>
-                    <Minus className='w-8 h-8 text-white'/>
+                    <Minus className='w-8 h-8'/>
                     <span className='sr-only'>Decrease</span>
                 </Button>
 
                 <span className='text-black font-semibold'>{cartItems?.quantity}</span>
 
                 <Button onClick={()=>handleUpdateQuantity(cartItems, 'plus')} variant='outline' size='icons' className='h-8 w-8 rounded-full'>
-                    <Plus className='w-8 h-8 text-white'/>
+                    <Plus className='w-8 h-8'/>
                     <span className='sr-only'>Decrease</span>
                 </Button>
             </div>

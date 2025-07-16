@@ -4,7 +4,7 @@ import { Button } from '../ui/button'
 
 export default function AdminProductTile({setCurrentEditedId, setOpenCreateProductsDialogue, setFormData, product, handleDelete}) {
   return (
-    <Card className='w-full max-w-sm mx-auto'>
+    <Card className='w-full max-w-sm mx-auto bg-white'>
         <div>
             <div className='relative mt-[-25px] '>
                 <img 
@@ -46,14 +46,16 @@ export default function AdminProductTile({setCurrentEditedId, setOpenCreateProdu
             </CardContent>
 
             <CardFooter className='flex justify-between items-center'>
-                <Button onClick={()=>
+                <Button className='bg-black text-white hover:cursor-pointer' onClick={()=>
                     {
                         setOpenCreateProductsDialogue(true)
                         setCurrentEditedId(product?._id)
                         setFormData(product)
                     }
                 }>Edit</Button>
-                <Button onClick={()=>handleDelete(product?._id)}>Delete</Button>
+
+
+                <Button className='bg-black text-white hover:cursor-pointer' onClick={()=>handleDelete(product?._id)}>Delete</Button>
             </CardFooter>
         </div>
     </Card>
