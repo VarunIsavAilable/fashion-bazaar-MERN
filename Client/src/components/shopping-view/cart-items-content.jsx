@@ -92,7 +92,7 @@ export default function UserCartItemContent({cartItem}) {
 
         <div className='flex flex-col items-end'>
             <p className='font-semibold'>
-                ${((cartItem?.salePrice > 0 ? cartItem?.salePrice : cartItem.price)* cartItem.quantity).toFixed(2)}
+                ${((cartItem?.salePrice > 0 ? cartItem?.salePrice : cartItem?.price)* cartItem.quantity).toFixed(2)}
             </p>
 
             <Trash onClick={()=>handleCartItemDelete(cartItem)} className='cursor-pointer mt-1' size={20}/>
