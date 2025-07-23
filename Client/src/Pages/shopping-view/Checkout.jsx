@@ -6,6 +6,7 @@ import UserCartItemContent from "@/components/shopping-view/cart-items-content";
 import { Button } from "@/components/ui/button";
 import paypalImg from "../../assets/paypal-removebg-preview.png";
 import { createNewOrder } from "@/store/shop/order-slice";
+import { toast } from "sonner";
 
 export default function ShoppingCheckout() {
   const { cartItems } = useSelector((state) => state.shopCart);
@@ -37,8 +38,22 @@ export default function ShoppingCheckout() {
 
   function handleInitialtePaypalPaymant() {
 
+    // console.log(cartItems)
+
+
+    if(cartItems.length === 0){
+      toast("Your cart is empty.")
+      return
+    }
+
+    if( currentSelectedAddress === null){
+      toast("Select an address to proceed.") 
+      return
+    }
+
     const orderData = {
       userId: user?.id,
+      cartId: cartItems?._id,
       cartItems: cartItems.items.map(singleCartItem=>({
             productId: singleCartItem?.productId,
             title: singleCartItem?.title,
@@ -61,7 +76,7 @@ export default function ShoppingCheckout() {
       orderDate: new Date(),
       orderUpdateDate: new Date(),
       paymetId: '',
-      payesId: ''
+      payerId: ''
     }
 
     // console.log(orderData)

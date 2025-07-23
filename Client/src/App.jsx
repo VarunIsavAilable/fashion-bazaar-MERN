@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { Skeleton } from "@/components/ui/skeleton"
 import PaypalReturnPage from './Pages/shopping-view/Paypal-return'
+import PaymentSuccess from './Pages/shopping-view/Payment-success'
 
 function App() {
   
@@ -89,6 +90,7 @@ function App() {
           <Route path='checkout' element={<ShoppingCheckout/>}/>
           <Route path='account' element={<ShoppingAccount/>}/>
           <Route path='paypal-return' element={<PaypalReturnPage/>}/>
+          <Route path='payment-success' element={<PaymentSuccess/>}/>
         </Route>
 
 

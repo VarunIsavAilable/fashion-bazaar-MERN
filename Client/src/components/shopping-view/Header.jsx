@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useN } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { House, Menu, ShoppingCart, User, LogOut } from "lucide-react";
 import { SheetTrigger, Sheet, SheetContent } from "../ui/sheet";
 import { Button } from "../ui/button";
@@ -23,18 +23,22 @@ import { fetchCartItems } from "@/store/shop/cart-slice";
 
 
 function MenuItems() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+  const location = useLocation()
+  const [searchParams, setSearchParams] = useSearchParams()
 
   function handleNavigateToListingPage(getCurrentItem) {
     sessionStorage.removeItem("filters");
     const currentFilter =
-      getCurrentItem.id !== "home"
+      getCurrentItem.id !== "home" && getCurrentItem.id !== 'products'
         ? {
             category: [getCurrentItem.id],
           }
         : null;
 
     sessionStorage.setItem("filters", JSON.stringify(currentFilter));
+
+    location.pathname.includes('listing') && currentFilter !== null ? setSearchParams(new URLSearchParams(`?category=${getCurrentItem.id}`)) :
     navigate(getCurrentItem.path);
   }
 
@@ -74,6 +78,7 @@ function HeaderRightContent() {
     dispatch(fetchCartItems(user?.id));
   }, [dispatch]);
 
+
   return (
     <div className="flex lg:items-center lg:flex-row flex-col gap-4">
       <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
@@ -87,12 +92,13 @@ function HeaderRightContent() {
         </Button>
 
         <UserCartWrapper
-        setOpenCartSheet={setOpenCartSheet}
           cartItems={
             cartItems && cartItems.items && cartItems.items.length > 0
               ? cartItems.items
               : ""
           }
+
+          setOpenCartSheet={setOpenCartSheet}
         />
       </Sheet>
 

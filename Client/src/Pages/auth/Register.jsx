@@ -47,7 +47,7 @@ function AuthRegister() {
       <div className='text-center '>
         <h1 className='text-3xl font-bold tracking-tight text-black'>Create new account</h1>
         <p className='mt-2 '>Already have an acconunt
-          <Link className='font-medium ml-2 text-purple-200 hover:underline' to='/auth/login'>Login</Link>
+          <Link className='font-medium ml-2 text-orange-600 hover:underline' to='/auth/login'>Login</Link>
         </p>
       </div>
       <CommonForm

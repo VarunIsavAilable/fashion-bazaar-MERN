@@ -4,13 +4,13 @@ import ShoppingProductTile from '@/components/shopping-view/Product-tile'
 import { Button } from '@/components/ui/button'
 import { DropdownMenuRadioGroup, DropdownMenuRadioItem } from '@/components/ui/dropdown-menu'
 import { sortOptions } from '@/config'
-import { addToCart, fetchCartItems, updateCartQuantity } from '@/store/shop/cart-slice'
+import { addToCart, fetchCartItems } from '@/store/shop/cart-slice'
 import { fetchAllFilteredProducts, fetchProductDetails } from '@/store/shop/products-slice'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { ArrowUpDownIcon } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { createSearchParams, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { toast } from "sonner"
 
 
@@ -49,6 +49,12 @@ export default function ShoppingListing() {
   const [searchPrams, setSearchParams] = useSearchParams()
 
   const [openDetailsDialogue, setOpenDetailsDialogue] = useState(false)
+
+  const categorySearchPram = searchPrams.get('category')
+
+
+  //let's check user can not add more items than available.
+  const {cartItems} = useSelector(state=>state.shopCart)
   
 
   function handleSort(value){
@@ -88,24 +94,53 @@ export default function ShoppingListing() {
 
   }
 
-
-
   function handleGetProductDetails(getCurrentProductId){
-    // console.log(getCurrentProductId)
-
     dispatch(fetchProductDetails(getCurrentProductId))
   }
 
+  
 
-  function handleAddToCart(getCurrentProductId){
-    dispatch(addToCart({userId: user?.id, productId: getCurrentProductId, quantity: 1}))
-    .then((data)=>{
+
+
+
+
+  function handleAddToCart(getCurrentProductId, getTotalStock){
+    //let's not let the user to add items more that the availibility
+    // let getCartItems = cartItems
+
+    
+    // console.log(getCurrentProductId, 'getCurrentProductId')
+    // console.log(getTotalStock, 'getTotalStock')
+
+    let getCartItems = cartItems.items || []
+
+    // console.log(getCartItems, 'Cart items')
+
+    if(getCartItems.length){
+      const indexOfCurrentItem = getCartItems.findIndex(item=> item.productId === getCurrentProductId)
+
+      if(indexOfCurrentItem > -1){
+        const getQuantity = getCartItems[indexOfCurrentItem].quantity;
+        if(getQuantity + 1 > getTotalStock){
+          toast(`Only ${getTotalStock} can be added for this item`)
+          return
+        }
+      }
+    }
+
+    dispatch(addToCart({userId: user?.id, productId:              
+      getCurrentProductId, quantity: 1})).then((data)=>{
       if(data?.payload?.success){
         dispatch(fetchCartItems(user?.id))
+        // console.log(cartItems, 'Cart items after fetch')
         toast("Product is added to cart.")
       }
-    })
+    }) 
   }
+
+
+
+
 
 
 
@@ -114,7 +149,7 @@ export default function ShoppingListing() {
   useEffect(()=>{
       setSort('price-lowtohigh')
       setFilters(JSON.parse(sessionStorage.getItem('filters')) || {})
-  }, [])
+  }, [categorySearchPram])
 
 
   useEffect(()=>{

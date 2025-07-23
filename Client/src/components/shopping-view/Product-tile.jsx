@@ -15,6 +15,12 @@ export default function ShoppingProductTile({product, handleGetProductDetails, h
                 className='w-full h-[300px] object-cover rounded-t-xl mt-[-24px]'
                 />
                 {
+                    product?.totalStock === 0 ?  
+                    <Badge className='absolute top-2 left-2 bg-red-500 hover:bg-red-600'>Out of stock</Badge> :
+
+                    product?.totalStock < 10 ? 
+                    <Badge className='absolute top-2 left-2 bg-red-500 hover:bg-red-600'>{`Only ${product.totalStock} items left`}</Badge> :
+
                     product?.salePrice > 0 ?
                     <Badge className='absolute top-2 left-2 bg-red-500 hover:bg-red-600'>Sale</Badge> : null
                 }
@@ -61,9 +67,16 @@ export default function ShoppingProductTile({product, handleGetProductDetails, h
         </div>
 
         <CardFooter>
-                <Button onClick={()=>handleAddToCart(product?._id)} className='w-full bg-black text-white hover:cursor-pointer'>
+            {
+                product.totalStock === 0? 
+                <Button className='w-full bg-black text-white hover:cursor-not-allowed opacity-60 '>
+                    Out of stock
+                </Button> :
+
+                <Button onClick={()=>handleAddToCart(product?._id, product?.totalStock)} className='w-full bg-black text-white hover:cursor-pointer'>
                     Add to cart
                 </Button>
+            }
         </CardFooter>
 
     </Card>

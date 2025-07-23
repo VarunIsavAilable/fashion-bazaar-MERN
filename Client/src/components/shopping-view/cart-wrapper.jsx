@@ -7,9 +7,13 @@ import { useNavigate } from 'react-router-dom';
 
 export default function UserCartWrapper({cartItems, setOpenCartSheet}) {
 
+
+  // console.log(cartItems, 'from wraper')
+
+
   const totalCartAmount = cartItems && cartItems.length > 0 ? 
   cartItems.reduce((sum, currentItem) => sum + (
-    currentItem?.salePrice > 0 ? currentItem?.salePrice : currentItem?.price
+    (currentItem?.salePrice) > 0 ? currentItem?.salePrice : currentItem?.price
   ) * currentItem?.quantity, 0) 
   : 0
 
@@ -26,7 +30,7 @@ export default function UserCartWrapper({cartItems, setOpenCartSheet}) {
           {
             cartItems && cartItems.length > 0 ?
             cartItems.map(item=>
-              <UserCartItemContent cartItems={item}/>
+              <UserCartItemContent cartItem={item}/>
             ) : null
           }
         </div>

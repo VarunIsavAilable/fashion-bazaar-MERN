@@ -17,7 +17,23 @@ export default function ProductDetailsDialogue({open, setOpen, productDetails}) 
 
     const {user} = useSelector(state=>state.auth)
 
-    function handleAddToCart(getCurrentProductId){
+    const {cartItems} = useSelector(state=>state.shopCart)
+
+    function handleAddToCart(getCurrentProductId, getTotalStock){
+        let getCartItems = cartItems.items || []
+    
+        if(getCartItems.length){
+                const indexOfCurrentItem = getCartItems.findIndex(item=> item.productId === getCurrentProductId)
+
+                if(indexOfCurrentItem > -1){
+                const getQuantity = getCartItems[indexOfCurrentItem].quantity;
+                if(getQuantity + 1 > getTotalStock){
+                    toast(`Only ${getTotalStock} can be added for this item`)
+                    return
+                }
+            }
+        }
+
         dispatch(addToCart({userId: user?.id, productId: getCurrentProductId, quantity: 1}))
         .then((data)=>{
         if(data?.payload?.success){
@@ -73,9 +89,17 @@ export default function ProductDetailsDialogue({open, setOpen, productDetails}) 
                 
 
                 <div className="mt-5 mb-5">
-                    <Button onClick={()=>handleAddToCart(productDetails._id)} className='w-full bg-black text-white'>
-                        Add to Cart
-                    </Button>
+                    {
+                        productDetails?.totalStock === 0 ? 
+                        <Button
+                         className='w-full bg-black text-white hover:cursor-not-allowed opacity-60 '>
+                            Out of stock
+                        </Button> :
+        
+                        <Button onClick={()=>handleAddToCart(productDetails?._id, productDetails?.totalStock)} className='w-full bg-black text-white hover:cursor-pointer'>
+                            Add to cart
+                        </Button>
+                    }
                 </div>
 
                 <Separator/>

@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 
 const OrderSchema = new mongoose.Schema({
     userId: String,
+    cartId: String,
     cartItems: [
         {
             productId: String,
@@ -26,7 +27,7 @@ const OrderSchema = new mongoose.Schema({
     orderDate: Date,
     orderUpdateDate: Date,
     paymetId: String,
-    payesId: String,
+    payerId: String,
 })
 
 export default mongoose.model('Order', OrderSchema)
