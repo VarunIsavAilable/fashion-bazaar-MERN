@@ -99,11 +99,6 @@ export default function ShoppingListing() {
   }
 
   
-
-
-
-
-
   function handleAddToCart(getCurrentProductId, getTotalStock){
     //let's not let the user to add items more that the availibility
     // let getCartItems = cartItems
@@ -137,10 +132,6 @@ export default function ShoppingListing() {
       }
     }) 
   }
-
-
-
-
 
 
 

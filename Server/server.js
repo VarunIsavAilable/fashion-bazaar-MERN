@@ -17,6 +17,11 @@ import shopOrderRouter from './routes/shop-view/order-routes.js'
 
 import adminOrderRouter from './routes/admin/order-routes.js'
 
+import searchRouter from './routes/shop-view/search-routes.js'
+
+import shopReviewRouter  from './routes/shop-view/review-routes.js'
+
+
 const app = express()
 const PORT = process.env.PORT || 5000
 
@@ -60,6 +65,11 @@ app.use('/api/shop/cart', shopCartRouter)
 app.use('/api/shop/address', shopAddressRouter)
 
 app.use('/api/shop/order', shopOrderRouter)
+
+app.use('/api/shop/search', searchRouter)
+
+app.use('/api/shop/review', shopReviewRouter)
+
 
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
